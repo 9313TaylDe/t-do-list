@@ -59,6 +59,7 @@ const Home = () => {
 
     if (res.ok) {
       alert("Tarefa removida com sucesso");
+      alert("Recarregando");
       listando();
     }
   };
