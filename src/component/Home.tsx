@@ -38,7 +38,7 @@ const Home = () => {
 
     const recebimento = {
       titulo: titulo,
-      estado: status,
+      status: status,
     };
 
     const res = await fetch(url, {
@@ -75,11 +75,11 @@ const Home = () => {
 
   return (
     <div className="relative w-full min-h-[99.9vh] flex bg-gray-700 justify-center items-center ">
-      <section className="flex flex-wrap w-full h-[500px] justify-center items-center border ">
-        <section>
-          <div className="flex flex-col gap-2 mt-2">
-            {lista.length < 0 ? (
-              ""
+      <section className="flex flex-wrap w-full h-[600px] justify-center items-center  ">
+        <section className="border w-full flex items-center justify-centere p-4">
+          <div className="flex flex-col gap-2 w-full items-center shadow-2xl shadow-black rounded-xl p-2">
+            {lista.length < 0 || openmodal ? (
+              <button></button>
             ) : (
               <button
                 type="button"
@@ -91,10 +91,11 @@ const Home = () => {
             )}
 
             {openmodal && (
-              <div>
+              <div className="flex flex-wrap w-full items-center justify-center gap-2">
                 <input
                   type="text"
                   placeholder="Título"
+                  className="bg-slate-500 text-white placeholder:text-white pl-3 pt-2 pb-2 rounded-xl w-[100%]"
                   value={titulo}
                   onChange={(e) => settitulo(e.target.value)}
                 />
@@ -108,9 +109,9 @@ const Home = () => {
                   Concluída
                 </label>
 
-                <div className="w-full flex gap-2">
+                <div className="w-full flex gap-2 justify-center">
                   <button
-                    className="bg-black text-white w-fit h-fit p-2"
+                    className="bg-black text-white h-fit p-2 w-[110px] rounded-xl hover:bg-gray-600"
                     onClick={() => {
                       criandoTarefa();
                       settitulo("");
@@ -121,17 +122,16 @@ const Home = () => {
                   </button>
 
                   <button
-                    className="bg-black text-white w-fit h-fit p-2"
+                    className="bg-black text-white h-fit p-2 w-[110px] rounded-xl hover:bg-gray-600"
                     onClick={() => {
                       editar(id);
-                      settitulo("");
                     }}
                   >
                     Editar
                   </button>
 
                   <button
-                    className="bg-black text-white w-fit h-fit p-2"
+                    className="bg-black text-white h-fit p-2 w-[110px] rounded-xl hover:bg-gray-600"
                     onClick={() => {
                       remover(id);
                       settitulo("");
@@ -144,30 +144,39 @@ const Home = () => {
             )}
           </div>
         </section>
-        <ol className="w-full min-h-[50%] bg-red-700 border list-inside">
-          {lista.map((prod) => (
-            <li
-              key={prod.id}
-              className="w-full cursor-pointer list-decimal"
-              onClick={() => {
-                settitulo(prod.titulo);
-                setstatus(prod.status);
-                setid(prod.id);
-                setopenmodal(true);
-              }}
-            >
-              <article className="w-full">
-                <header className="flex gap-3">
-                  <h3 className="text-red-500">Título: {prod.titulo}</h3>
+        <section className="w-full flex h-[60%] p-4 rounded-xl">
+          <ol className="w-full min-h-[50%] bg-gray-70] rounded-xl border list-inside text-black p-2">
+            {lista.map((prod) => (
+              <li
+                key={prod.id}
+                className="w-full cursor-pointer list-disc"
+                onClick={() => {
+                  settitulo(prod.titulo);
+                  setstatus(prod.status);
+                  setid(prod.id);
+                  setopenmodal(true);
+                }}
+              >
+                <article className="w-full flex-col">
+                  <header className="flex gap-3 flex-col ">
+                    <h3 className="text-red-500 flex gap-2 focus-visible:border focus:border-black">
+                      Título: <p className="text-white"> {prod.titulo}</p>
+                    </h3>
 
-                  <p>Concluída: {prod.status ? "Sim" : "Não"}</p>
-                </header>
-              </article>
+                    <h3 className="w-full flex gap-2 text-red-500">
+                      Concluída:{" "}
+                      <p className="text-white">
+                        {prod.status ? "Sim" : "Não"}
+                      </p>
+                    </h3>
+                  </header>
+                </article>
 
-              <hr className="my-3" />
-            </li>
-          ))}
-        </ol>
+                <hr className="my-3" />
+              </li>
+            ))}
+          </ol>
+        </section>
       </section>
     </div>
   );

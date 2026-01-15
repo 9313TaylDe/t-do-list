@@ -6,12 +6,12 @@ CORS(app)
 
 tarefas = [
     {"id": 1, "titulo":"Comer algo","status": False},
-    {"id": 2, "titulo":"Comer","status": False}
 ]
 
 @app.route("/home", methods=["GET"])
 def Listando():
     return jsonify(tarefas)
+
 @app.route("/update/<int:id>", methods=["POST"])
 def Editando(id):
     dados = request.json
@@ -19,6 +19,8 @@ def Editando(id):
         if t["id"] == id:
             t["titulo"] = dados["titulo"]
             t["status"] = dados["status"]
+            return jsonify(t), 200
+        
 @app.route("/create", methods=["POST"])
 def Criando():
     dados = request.json
@@ -26,11 +28,12 @@ def Criando():
     nova = {
                 "id": len(tarefas)+1,
                 "titulo": dados["titulo"],
-                "status": dados["status"]
+                "status": dados.get("titulo", False)
             }
     tarefas.append(nova)
-    return tarefas
+    return jsonify(tarefas)
 @app.route("/remover/<int:id>", methods=["DELETE"])
+
 def Dleetando(id):
     for t in tarefas:
         if t["id"] == id:
